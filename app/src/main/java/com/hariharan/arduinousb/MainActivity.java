@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
@@ -124,14 +125,19 @@ public class MainActivity extends Activity {
             for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
                 device = entry.getValue();
                 int deviceVID = device.getVendorId();
-                if (deviceVID == 0x2341)//Arduino Vendor ID
+                Toast.makeText(getBaseContext(), "DEVICEL " + deviceVID, Toast.LENGTH_SHORT).show();
+                //if (deviceVID == 0x2341)//Arduino Vendor ID
+                if (deviceVID == 0x1A86)
                 {
                     PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
                     usbManager.requestPermission(device, pi);
                     keep = false;
+                    Toast.makeText(getBaseContext(), "Berhasil konek", Toast.LENGTH_SHORT).show();
+
                 } else {
                     connection = null;
                     device = null;
+                    Toast.makeText(getBaseContext(), "Gagal konek", Toast.LENGTH_SHORT).show();
                 }
 
                 if (!keep)
